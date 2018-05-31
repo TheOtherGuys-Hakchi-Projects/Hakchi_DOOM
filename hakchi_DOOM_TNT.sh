@@ -20,9 +20,7 @@ fi
 
 if [ "$ok" == 1 ]; then
 	decodepng "$DOOMTrueDir/Hakchi_DOOM_TNT_assets/doom_tnt_splash-min.png" > /dev/fb0;
-	[ -f "$rootfs/share/retroarch/assets/RAloading-min.png" ] && mount_bind "$DOOMTrueDir/Hakchi_DOOM_TNT_assets/doom_tnt_splash-min.png" "$rootfs/share/retroarch/assets/RAloading-min.png"
-	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/TNT.WAD"
-	umount "$rootfs/share/retroarch/assets/RAloading-min.png"
+	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/TNT.WAD" --custom-loadscreen ../../../../../../../../$DOOMTrueDir/Hakchi_DOOM_TNT_assets/doom_tnt_splash-min.png
 else	
 	decodepng "$DOOMTrueDir/Hakchi_DOOM_TNT_assets/doomerror_files-min.png" > /dev/fb0;
 	sleep 5

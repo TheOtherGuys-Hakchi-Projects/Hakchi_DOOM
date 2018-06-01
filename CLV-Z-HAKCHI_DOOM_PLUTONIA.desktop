@@ -1,0 +1,18 @@
+[Desktop Entry]
+Type=Application
+Exec=/bin/sh /var/games/CLV-Z-HAKCHI_DOOM_PLUTONIA/hakchi_DOOM_PLUTONIA.sh
+Path=/var/lib/clover/profiles/0/CLV-Z-HAKCHI_DOOM_PLUTONIA
+Name=Hakchi DOOM: The Plutonia Experiment
+Icon=/var/games/CLV-Z-HAKCHI_DOOM_PLUTONIA/CLV-Z-HAKCHI_DOOM_PLUTONIA.png
+
+[X-CLOVER Game]
+Code=CLV-Z-HAKCHI_DOOM_PLUTONIA
+TestID=0
+ID=0
+Players=1
+Simultaneous=0
+ReleaseDate=1900-01-01
+SaveCount=0
+SortRawTitle=_hakchi doom 2 plutonia
+SortRawPublisher=ID
+Copyright=hakchi2 ©2018 Swingflip

@@ -1,25 +1,18 @@
 #!/bin/sh
 
-source /etc/preinit
-script_init
-
-WorkingDir=$(pwd)
-GameName=$(echo $WorkingDir | awk -F/ '{print $NF}')
 ok=0
+DOOMPortableCore="$(dirname $0)/etc/libretro/core/prboom"
+DOOMPortableFiles="$(dirname $0)/DOOM_1_files"
+DOOMPortableAssets="$(dirname $0)/Hakchi_DOOM_assets"
+wad=$(ls $DOOMPortableFiles | grep -i doom.wad)
+[ -z "$wad" ] && wad=$(ls $DOOMPortableFiles | grep -i doom1.wad)
 
-if [ -f "/usr/share/games/$GameName/$GameName.desktop" ]; then
-	DOOMTrueDir=$(grep /usr/share/games/$GameName/$GameName.desktop -e 'Exec=' | awk '{print $2}' | sed 's/\([/\t]\+[^/\t]*\)\{1\}$//')
-	DOOMPortableCore="$DOOMTrueDir/etc/libretro/core/prboom"
-	DOOMPortableFiles="$DOOMTrueDir/DOOM_1_files"
-	ok=1
-fi
+[ ! -z "$wad" ] && ok=1
 
 if [ "$ok" == 1 ]; then
-	decodepng "$DOOMTrueDir/Hakchi_DOOM_assets/doom1splash-min.png" > /dev/fb0;
-	[ -f "$rootfs/share/retroarch/assets/RAloading-min.png" ] && mount_bind "$DOOMTrueDir/Hakchi_DOOM_assets/doom1splash-min.png" "$rootfs/share/retroarch/assets/RAloading-min.png"
-	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/DOOM1.WAD"
-	umount "$rootfs/share/retroarch/assets/RAloading-min.png"
+	decodepng "$DOOMPortableAssets/doom1splash-min.png" > /dev/fb0;
+	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/$wad" --custom-loadscreen "../../../../../../../$DOOMPortableAssets/doom1splash-min.png"
 else
-	decodepng "$DOOMTrueDir/Hakchi_DOOM_assets/doomerror_files-min.png" > /dev/fb0;
+	decodepng "$DOOMPortableAssets/doomerror_files-min.png" > /dev/fb0;
 	sleep 5
 fi

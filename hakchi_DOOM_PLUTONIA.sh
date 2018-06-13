@@ -11,18 +11,13 @@ if [ -f "/usr/share/games/$GameName/$GameName.desktop" ]; then
 	DOOMTrueDir=$(grep /usr/share/games/$GameName/$GameName.desktop -e 'Exec=' | awk '{print $2}' | sed 's/\([/\t]\+[^/\t]*\)\{1\}$//')
 	DOOMPortableCore="$DOOMTrueDir/etc/libretro/core/prboom"
 	DOOMPortableFiles="$DOOMTrueDir/DOOM_PLUTONIA_files"
-	ok=1
-fi
-
-if [ ! -f "$DOOMPortableFiles/PLUTONIA.WAD" ]; then
-	ok=0
+	wad=$(ls $DOOMPortableFiles | grep -i plutonia.wad)
+	[ ! -z "$wad" ] && ok=1
 fi
 
 if [ "$ok" == 1 ]; then
 	decodepng "$DOOMTrueDir/Hakchi_DOOM_PLUTONIA_assets/doom_plutonia_splash-min.png" > /dev/fb0;
-	[ -f "$rootfs/share/retroarch/assets/RAloading-min.png" ] && mount_bind "$DOOMTrueDir/Hakchi_DOOM_PLUTONIA_assets/doom_plutonia_splash-min.png" "$rootfs/share/retroarch/assets/RAloading-min.png"
-	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/PLUTONIA.WAD"
-	umount "$rootfs/share/retroarch/assets/RAloading-min.png"
+	exec retroarch-clover "../../..$DOOMPortableCore" "$DOOMPortableFiles/$wad" --custom-loadscreen "../../../../../../..$DOOMTrueDir/Hakchi_DOOM_PLUTONIA_assets/doom_plutonia_splash-min.png"
 else	
 	decodepng "$DOOMTrueDir/Hakchi_DOOM_PLUTONIA_assets/doomerror_files-min.png" > /dev/fb0;
 	sleep 5
